@@ -12,9 +12,10 @@ class CreateOrderException extends Exception
      * CreateOrderException constructor.
      *
      * @param string $errorMessage
+     * @param Exception|null $previous
      */
-    public function __construct(string $errorMessage)
+    public function __construct(string $errorMessage, $previous = null)
     {
-        parent::__construct($errorMessage);
+        parent::__construct($errorMessage, 0, $previous);
     }
 }

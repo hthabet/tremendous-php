@@ -10,14 +10,14 @@ class ClientTest extends TestCase
 {
     /**
      * @throws \Tremendous\Exception\CreateOrderException
-     * @expectedException Tremendous\Exception\CreateOrderException
+     * @expectedException \Tremendous\Exception\CreateOrderException
      * @expectedExceptionMessage Invalid Access token
      */
     public function testFailure()
     {
         $faker = \Faker\Factory::create();
 
-        $fundingSource = (string) getenv('TREMENDOUS_FUNDING_SOURCE');
+        $fundingSource = (string)getenv('TREMENDOUS_FUNDING_SOURCE');
 
         $reward = [
             'campaign_id' => getenv('TREMENDOUS_TEST_CAMPAIGN_IDENTIFIER'),
@@ -39,15 +39,12 @@ class ClientTest extends TestCase
         $invalidToken = 'invalid83924ded57c64add9881e70e35f92a46efbccdd1067a4830b6d6d89b4';
 
         $config = [
-            'base_url' => (string) getenv('TREMENDOUS_ENDPOINT'),
-            'defaults' =>
-                [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' .  $invalidToken,
-                        'Accept'        => 'application/json',
-                        'Content-Type'  => 'application/json'
-                    ]
-                ]
+            'base_uri' => (string)getenv('TREMENDOUS_ENDPOINT'),
+            'headers'  => [
+                'Authorization' => 'Bearer ' . $invalidToken,
+                'Accept'        => 'application/json',
+                'Content-Type'  => 'application/json'
+            ]
         ];
 
         $httpClient = new Client($config);
@@ -57,15 +54,13 @@ class ClientTest extends TestCase
         $orderRequest = new CreateOrderRequest($fundingSource, $reward, $rewardExternalId);
 
         $tremendousApi->createOrder($orderRequest);
-
-
     }
 
     public function testLink()
     {
         $faker = \Faker\Factory::create();
 
-        $fundingSource = (string) getenv('TREMENDOUS_FUNDING_SOURCE');
+        $fundingSource = (string)getenv('TREMENDOUS_FUNDING_SOURCE');
 
         $reward = [
             'campaign_id' => getenv('TREMENDOUS_TEST_CAMPAIGN_IDENTIFIER'),
@@ -85,16 +80,14 @@ class ClientTest extends TestCase
         $rewardExternalId = \Faker\Provider\Uuid::uuid();
 
         $config = [
-            'base_url' => (string) getenv('TREMENDOUS_ENDPOINT'),
-            'defaults' =>
-                [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' .  (string) getenv('TREMENDOUS_API_TOKEN'),
-                        'Accept'        => 'application/json',
-                        'Content-Type'  => 'application/json'
-                    ]
-                ]
+            'base_uri' => (string)getenv('TREMENDOUS_ENDPOINT'),
+            'headers'  => [
+                'Authorization' => 'Bearer ' . (string)getenv('TREMENDOUS_API_TOKEN'),
+                'Accept'        => 'application/json',
+                'Content-Type'  => 'application/json'
+            ]
         ];
+
 
         $httpClient = new Client($config);
 
